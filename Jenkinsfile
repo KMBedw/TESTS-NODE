@@ -23,16 +23,16 @@ pipeline {
                 sh 'npm install' // Installe les dépendances nécessaires pour les tests.
                 sh 'npm test' // Exécute les tests Jest.
             }
-        }
-        post {
-            always {
-                junit 'test-results/test-results.xml' // Collecte et affiche les résultats de tests Jest dans Jenkins.
-            }
-            success {
-                echo 'Tests passed.'
-            }
-            failure {
-                echo 'Tests failed.'
+            post {
+                always {
+                    junit 'test-results/*.xml' // Adjust this path to where your test results are actually stored
+                }
+                success {
+                    echo 'Tests passed.'
+                }
+                failure {
+                    echo 'Tests failed.'
+                }
             }
         }
         stage('Docker Build and Push') {
@@ -42,8 +42,8 @@ pipeline {
             agent any // This can use the default Jenkins agent, Docker will be used just for building the image
             steps {
                 script {
-                    dockerImage = docker.build("myapp/${env.BUILD_ID}")
-                    if("${env.DOCKER_REGISTRY}") {
+                    def dockerImage = docker.build("myapp/${env.BUILD_ID}")
+                    if(env.DOCKER_REGISTRY) {
                         docker.withRegistry("${env.DOCKER_REGISTRY}", "${env.DOCKER_CREDENTIALS_ID}") {
                             dockerImage.push()
                         }
