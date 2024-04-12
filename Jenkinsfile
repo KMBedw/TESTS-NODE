@@ -1,5 +1,13 @@
 pipeline {
     agent none // Define no global agent, we will specify agents for each stage
+
+    // Définir des propriétés pour le projet multibranches, comme des paramètres avec des valeurs par défaut
+    properties([
+        parameters([
+            string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Branch to build')
+        ])
+    ])
+
     environment {
         DOCKER_IMAGE = "node:14-alpine" // Replace with the Docker image you want to use
         DOCKER_REGISTRY = '' // If using a private registry, specify its URL here
@@ -9,7 +17,16 @@ pipeline {
         stage('Clone repository') {
             agent any // This stage will use the default Jenkins agent
             steps {
-                git 'https://github.com/KMBedw/TESTS-NODE.git'
+                // Utiliser la variable de paramètre pour la branche si nécessaire
+                git branch: params.BRANCH_NAME, url: 'https://github.com/KMBedw/TESTS-NODE.git'
+            }
+            post {
+                success {
+                    echo 'Clone du repo Réussi!'
+                }
+                failure {
+                    echo 'Clone du repo échoué.'
+                }
             }
         }
         stage('Test') {
@@ -28,10 +45,10 @@ pipeline {
                     junit 'test-results/*.xml' // Adjust this path to where your test results are actually stored
                 }
                 success {
-                    echo 'Tests passed.'
+                    echo 'Tests Reussi!.'
                 }
                 failure {
-                    echo 'Tests failed.'
+                    echo 'Tests Echoué!.'
                 }
             }
         }
