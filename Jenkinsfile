@@ -2,8 +2,10 @@ pipeline {
     agent none // Define no global agent, we will specify agents for each stage
 
     // Définir des propriétés pour le projet multibranches, comme des paramètres avec des valeurs par défaut
-    parameters([
-        string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Branch to build')
+    properties([
+        parameters([
+            string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Nom de la branche à construire')
+        ])
     ])
 
     environment {
