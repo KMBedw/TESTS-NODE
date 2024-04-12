@@ -17,8 +17,8 @@ pipeline {
         stage('Clone repository') {
             agent any // This stage will use the default Jenkins agent
             steps {
-                // Utiliser la variable de paramètre pour la branche si nécessaire
-                git branch: params.BRANCH_NAME, url: 'https://github.com/KMBedw/TESTS-NODE.git'
+                // Spécifiez explicitement la branche 'main'.
+                checkout scm: [$class: 'GitSCM', branches: [[name: 'refs/heads/main']], userRemoteConfigs: [[url: 'https://github.com/KMBedw/TESTS-NODE.git']]]
             }
             post {
                 success {
