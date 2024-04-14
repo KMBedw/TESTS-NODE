@@ -8,12 +8,9 @@ pipeline {
   stages {
     stage('Install') {
       steps {
-        // Cette commande est inutile si vous exécutez déjà en tant que l'utilisateur 'node'
+        // Cette commande est retirée car elle n'est pas nécessaire et pourrait causer des erreurs
         // sh 'sudo chown -R 1000:1000 ~/.npm'
-        
-        // Configurez le cache de npm pour l'utilisateur 'node' sans sudo
         sh 'npm config set cache /home/node/.npm --global'
-
         sh 'npm install'
       }
     }
@@ -25,7 +22,6 @@ pipeline {
   }
   post {
     always {
-      // Utilisez les chemins relatifs à partir de la racine du workspace Jenkins
       junit 'test-results/*.xml'
       archiveArtifacts 'test-results/*.xml'
     }
