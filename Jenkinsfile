@@ -1,14 +1,17 @@
 pipeline {
   agent {
-  docker {
-    image 'node:16-alpine'
-    args '-u node'
+    docker {
+      image 'node:16-alpine'
+      args '-u node'
+    }
   }
-}
   stages {
     stage('Install') {
       steps {
-        sh 'sudo chown -R 1000:1000 ~/.npm'
+        // Cette commande est inutile si vous exécutez déjà en tant que l'utilisateur 'node'
+        // sh 'sudo chown -R 1000:1000 ~/.npm'
+        
+        // Configurez le cache de npm pour l'utilisateur 'node' sans sudo
         sh 'npm config set cache /home/node/.npm --global'
 
         sh 'npm install'
@@ -22,9 +25,9 @@ pipeline {
   }
   post {
     always {
-      // Assurez-vous que le nom de fichier correspond à celui défini dans le package.json
-      junit 'test-results/test-results.xml'
-      archiveArtifacts 'test-results/test-results.xml'
+      // Utilisez les chemins relatifs à partir de la racine du workspace Jenkins
+      junit 'test-results/*.xml'
+      archiveArtifacts 'test-results/*.xml'
     }
     success {
       echo "Les tests sont passés avec succès."
