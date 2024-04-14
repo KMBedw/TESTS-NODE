@@ -1,10 +1,16 @@
 pipeline {
   agent {
-    docker { image 'node:16-alpine' }
+  docker {
+    image 'node:16-alpine'
+    args '-u node'
   }
+}
   stages {
     stage('Install') {
       steps {
+        sh 'sudo chown -R 1000:1000 ~/.npm'
+        sh 'npm config set cache /home/node/.npm --global'
+
         sh 'npm install'
       }
     }
