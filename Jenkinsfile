@@ -5,8 +5,9 @@ pipeline {
   stages {
     stage('Install') {
       steps {
-        // Exécuter npm install avec un niveau de log détaillé
-        sh 'sudo apt install npm'
+        // Pas besoin d'installer npm, il est déjà inclus dans l'image node:18-alpine
+        sh 'npm --version'
+        sh 'npm install'
       }
     }
     stage('Test') {
