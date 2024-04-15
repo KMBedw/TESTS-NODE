@@ -7,6 +7,9 @@ pipeline {
       steps {
         // Pas besoin d'installer npm, il est déjà inclus dans l'image node:18-alpine
         sh 'npm --version'
+        sh 'whoami' // Vérifiez l'utilisateur actuel
+        sh 'pwd' // Vérifiez le répertoire de travail actuel
+        sh 'ls -la' // Liste les permissions des fichiers dans le répertoire actuel
         sh 'npm install'
       }
     }
