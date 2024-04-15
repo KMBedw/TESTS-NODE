@@ -3,16 +3,10 @@ pipeline {
     docker { image 'node:18-alpine' }
   }
   stages {
-    stage('Clean Workspace') {
-      steps {
-        // Nettoyer le répertoire node_modules pour éviter les conflits
-        sh 'rm -rf node_modules/'
-      }
-    }
     stage('Install') {
       steps {
         // Exécuter npm install avec un niveau de log détaillé
-        sh 'npm install --loglevel verbose'
+        sh 'sudo npm install'
       }
     }
     stage('Test') {
