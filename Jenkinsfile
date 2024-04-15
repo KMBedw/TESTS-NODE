@@ -8,14 +8,10 @@ pipeline {
     }
     stage('Test') {
       steps {
-        sh 'sudo apt install npm'
+        // Assurez-vous que npm est déjà installé ou installez-le sans sudo si nécessaire
+        sh 'npm install'
         sh 'npm test'
       }
     }
-    // stage('Build') {
-    //   steps {
-    //     sh 'npm run build'
-    //   }
-    // }
   }
 }
