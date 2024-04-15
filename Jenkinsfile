@@ -6,7 +6,7 @@ pipeline {
     stage('Install') {
       steps {
         // Exécuter npm install avec un niveau de log détaillé
-        sh 'sudo npm install'
+        sh 'sudo apt install npm'
       }
     }
     stage('Test') {
