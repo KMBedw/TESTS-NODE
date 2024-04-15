@@ -1,36 +1,21 @@
 pipeline {
-  agent {
-    docker {
-      image 'node:18-alpine'
-      args '-u 1000:1000' // Exécuter en tant qu'utilisateur 'node'
-    }
-  }
+  agent any
   stages {
-    stage('Install') {
+    stage('Checkout') {
       steps {
-        sh 'env'
-        sh 'pwd'
-        sh 'ls -la'
-        sh 'export LAUNCH_DIAGNOSTICS=true'
-        sh 'npm install --loglevel verbose'
+        checkout scm
       }
     }
     stage('Test') {
       steps {
+        sh 'sudo apt install npm'
         sh 'npm test'
       }
     }
-  }
-  post {
-    always {
-      junit 'test-results/*.xml'
-      archiveArtifacts 'test-results/*.xml'
-    }
-    success {
-      echo "Les tests sont passés avec succès."
-    }
-    failure {
-      echo "Les tests ont échoué. Vérifiez les résultats des tests pour plus d'informations."
-    }
+    // stage('Build') {
+    //   steps {
+    //     sh 'npm run build'
+    //   }
+    // }
   }
 }
