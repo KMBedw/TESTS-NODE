@@ -8,7 +8,6 @@ pipeline {
     }
     stage('Test') {
       steps {
-        // Assurez-vous que npm est déjà installé ou installez-le sans sudo si nécessaire
         sh 'npm install'
         sh 'npm test'
       }
