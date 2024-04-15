@@ -8,7 +8,11 @@ pipeline {
   stages {
     stage('Install') {
       steps {
-        sh 'npm install'
+        sh 'env'
+        sh 'pwd'
+        sh 'ls -la'
+        sh 'export LAUNCH_DIAGNOSTICS=true'
+        sh 'npm install --loglevel verbose'
       }
     }
     stage('Test') {
