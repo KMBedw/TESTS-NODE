@@ -1,7 +1,7 @@
 const user = {
   name: 'John DOE',
-  birth: new Date('1992-05-09'),
+  // Mettez intentionnellement une chaîne de caractères ici pour simuler une entrée incorrecte
+  birth: '1992-05-09', // Cette ligne a été modifiée
 };
-
 
 module.exports = user;
